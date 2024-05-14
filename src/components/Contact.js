@@ -1,8 +1,12 @@
 import { useState } from "react";
+import React, { useRef } from "react";
+import emailjs from "@emailjs/browser";
 import { Container, Row, Col } from "react-bootstrap";
 import contactImg from "../assets/img/contact.png";
 import TrackVisibility from 'react-on-screen';
 import 'animate.css';
+
+
 
 export const Contact = () => {
   const formInitialDetails = {
@@ -25,22 +29,45 @@ export const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setButtonText("Sending...");
-    let response = await fetch("http://localhost:5000/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(formDetails),
-    });
+    const service_id= 'service_w8qj525';
+    const  template_id='template_asp41oa';
+    const  user_id='ZOx38AUYFKnFOGxTY';
+    const templateParams = {
+      from_firstname: formDetails.firstName, 
+      from_lastname: formDetails.lastName, 
+      from_email: formDetails.email, 
+      from_mobile: formDetails.phone, 
+      message: formDetails.message,
+    };
+
+   await setButtonText("Sending...");
+   emailjs.send(service_id, template_id, templateParams, user_id)
+      .then((response) => {
+        console.log('Email sent successfully!', response);
+        setStatus({ succes: true, message: 'Message sent successfully'})
+       
+      })
+      .catch((error) => {
+        console.error('Error sending email:', error);
+        setStatus({ succes: false, message: 'Something went wrong, please try again later.'});
+      });
+    // let response = await fetch("http://localhost:5000/contact", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json;charset=utf-8",
+    //   },
+    //   body: JSON.stringify(formDetails),
+    // });
+    console.log(formDetails);
     setButtonText("Send");
-    let result = await response.json();
     setFormDetails(formInitialDetails);
-    if (result.code == 200) {
-      setStatus({ succes: true, message: 'Message sent successfully'});
-    } else {
-      setStatus({ succes: false, message: 'Something went wrong, please try again later.'});
-    }
+    // let result = await response.json();
+    // setFormDetails(formInitialDetails);
+    // if (result.code == 200) {
+    //   setStatus({ succes: true, message: 'Message sent successfully'});
+    // } else {
+    //   setStatus({ succes: false, message: 'Something went wrong, please try again later.'});
+    // }
   };
 
   return (
@@ -92,4 +119,5 @@ export const Contact = () => {
       </Container>
     </section>
   )
-}
+};
+  export default Contact;

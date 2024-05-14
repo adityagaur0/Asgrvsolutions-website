@@ -4,6 +4,7 @@ import headerImg from "../assets/img/cover-asgrv.webp";
 import { ArrowRightCircle } from 'react-bootstrap-icons';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
+// import '../styles/Banner.css'; 
 
 export const Banner = () => {
   const [loopNum, setLoopNum] = useState(0);
@@ -13,6 +14,8 @@ export const Banner = () => {
   const [index, setIndex] = useState(1);
   const toRotate = [ "Web Developer", "Web Designer", "UI/UX Designer" ];
   const period = 2000;
+ 
+    
 
   // useEffect(() => {
   //   let ticker = setInterval(() => {
@@ -51,7 +54,7 @@ export const Banner = () => {
     <section className="banner" id="home">
       <Container>
         <Row className="aligh-items-center">
-          <Col xs={12} md={6} xl={5}>
+          <Col xs={12} md={10} xl={5}>
             <TrackVisibility>
               {({ isVisible }) =>
               <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
@@ -62,11 +65,11 @@ export const Banner = () => {
               </div>}
             </TrackVisibility>
           </Col>
-          <Col xs={12} md={6} xl={5}>
+          <Col xs={12} md={12} xl={7} className="d-flex justify-content-center align-items-center">
             <TrackVisibility>
               {({ isVisible }) =>
                 <div className={isVisible ? "" : ""}>
-                  <img src={headerImg}  width="900" height="450" healt="Header Img"/>
+                  <img src={headerImg} alt="Header Img" className="banner-img" />
                 </div>}
             </TrackVisibility>
           </Col>
